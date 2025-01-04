@@ -6,10 +6,10 @@ import HelloWorld from './components/HelloWorld.vue'
 <template>
   <header>
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <HelloWorld msg="Welcome to Ranking of Legends" />
       <RouterView />
       <nav style="color: hsla(160, 100%, 37%, 1);">
-        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/home">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
     </div>

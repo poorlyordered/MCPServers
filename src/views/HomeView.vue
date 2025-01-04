@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import WelcomeMessage from '@/components/WelcomeMessage.vue';
+import CallToAction from '@/components/CallToAction.vue';
+import TeamPlayerFeatures from '@/components/TeamPlayerFeatures.vue';
+import OrganizationFeatures from '@/components/OrganizationFeatures.vue';
 </script>
 
 <template>

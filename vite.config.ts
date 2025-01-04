@@ -8,7 +8,15 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => {
+            return ['WelcomeMessage', 'CallToAction', 'TeamPlayerFeatures', 'OrganizationFeatures'].includes(tag);
+          },
+        },
+      },
+    }),
     vueJsx(),
     vueDevTools(),
   ],
