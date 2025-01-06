@@ -1,10 +1,16 @@
-## Product Requirements Document (PRD) for League of Legends Esports Platform
+# Product Requirements Document (PRD) for League of Legends Esports Platform
+Version: 1.0.2
+Last Updated: 2024-01-09
 
-### Overview
+## Document Purpose
+### Continuously updated with clarifications
+### Links technical decisions to business requirements
+
+## Overview
 
 This platform will serve as a hub for League of Legends players to find teams, for teams to recruit players, and to organize leagues and tournaments. The system will leverage existing APIs and services to minimize development complexity and costs.
 
-### Key Features
+## Key Features
 
 **Player and Team Management**
 
@@ -14,9 +20,10 @@ This platform will serve as a hub for League of Legends players to find teams, f
 
 **Tournament and League Organization**
 
-- Tournament creation and management using Challengermode API
+- Tournament creation and management system
 - League scheduling and standings
 - Match result tracking and statistics
+- Integration with RIOT API for game data
 
 **Authentication and Backend**
 
@@ -27,17 +34,22 @@ This platform will serve as a hub for League of Legends players to find teams, f
 ### Technology Stack
 
 **Frontend**
-Vue.js 3 with TypeScript
-Vite for build tooling
-Vitest for unit testing
-Playwright for end-to-end testing
-ESLint + Prettier for code quality
-Responsive design for mobile and desktop
+- Vue.js 3 with TypeScript
+- Vite for build tooling and development server
+- Vue Router for client-side routing
+- Pinia for state management
+- Vitest for unit testing
+- Playwright for end-to-end testing
+- ESLint + Prettier for code quality
+- Responsive design with CSS3 and modern layout techniques
 
 **Backend and Services**
-- Supabase for authentication, database, and real-time features
+- Supabase for:
+  - Authentication and user management
+  - PostgreSQL database
+  - Real-time subscriptions
+  - File storage
 - RIOT API for player and game statistics
-- Challengermode API for tournament management
 
 ### Detailed Requirements
 
@@ -67,7 +79,7 @@ Responsive design for mobile and desktop
 
 **Tournament and League Organization**
 
-1. Integrate Challengermode API for tournament creation and management
+1. Integrate RIOT API for tournament data
 2. Allow users to create and manage leagues with multiple teams
 3. Implement a scheduling system for matches
 4. Display tournament brackets and league standings
@@ -75,8 +87,8 @@ Responsive design for mobile and desktop
 
 **Communication**
 
-1. Implement a messaging system for players and teams
-2. Set up automated email notifications for important events (match reminders, tournament updates)
+1. Implement a messaging system for players and teams using Supabase real-time features
+2. Set up automated email notifications for important events using Supabase Edge Functions
 
 ### User Interface
 
@@ -86,44 +98,53 @@ Responsive design for mobile and desktop
 
 ### Data Management
 
-- Use Supabase for storing user profiles, team data, and platform-specific information
+- Use Supabase PostgreSQL for storing user profiles, team data, and platform-specific information
 - Integrate RIOT API for real-time player and game statistics
-- Utilize Challengermode API for tournament data and management
+- Implement efficient caching strategies for API responses
 
 ### Security and Compliance
 
 1. Implement secure authentication through Supabase
 2. Ensure compliance with data protection regulations (GDPR, CCPA)
-3. Implement rate limiting and API key management for third-party integrations
+3. Implement rate limiting and API key management for RIOT API integration
 
 ### Monetization Strategy
 
 1. Offer premium features for players and teams (advanced stats, priority matching)
-2. Charge fees for tournament entry (percentage-based to keep costs low for users)
+2. Implement subscription tiers with different feature sets
 3. Explore sponsorship opportunities for leagues and tournaments
 
 ### Development Approach
 
-To keep costs low and development simple:
-
-1. Utilize no-code/low-code tools where possible (e.g., Supabase Studio for backend management)
-2. Focus on integrating existing services rather than building custom solutions
+1. Utilize Supabase's built-in features to minimize custom backend development
+2. Focus on creating a robust frontend with Vue.js and TypeScript
 3. Use a modular approach to allow for future expansions and improvements
-4. Consider using a website builder like Webflow for the frontend to minimize coding requirements
+4. Implement comprehensive testing with Vitest and Playwright
 
 ### Timeline and Milestones
 
-1. Project Setup and Planning (2 weeks)
-2. User Authentication and Basic Profiles (3 weeks)
-3. Team Management Features (3 weeks)
-4. Tournament and League Integration (4 weeks)
-5. Matchmaking System (3 weeks)
-6. Testing and Refinement (3 weeks)
-7. Launch Preparation (2 weeks)
+Phase 1 - Foundation (Completed)
+- Project setup with Vue 3, TypeScript, and Vite
+- Basic routing and state management implementation
+- Initial UI components and layouts
 
-Total estimated timeline: 20 weeks (5 months)
+Phase 2 - Core Features (In Progress)
+- User authentication with Supabase
+- Player profile creation and management
+- Team management system
+- Basic matchmaking functionality
 
-By focusing on integration of existing services and keeping the frontend simple, this project can be developed with minimal technical expertise. However, it's recommended to consult with experienced developers for proper implementation and security measures[1][3][7].
+Phase 3 - Advanced Features (Upcoming)
+- Tournament and league management
+- Advanced statistics and analytics
+- Premium features implementation
+- Mobile responsiveness optimization
+
+Phase 4 - Launch Preparation
+- Comprehensive testing
+- Performance optimization
+- Documentation
+- Beta testing and feedback implementation
 
 Citations:
 [1] https://www.reddit.com/r/esports/comments/92vd78/is_game_developerran_leagues_and_tournaments_the/
@@ -141,3 +162,18 @@ Citations:
 [13] https://www.riotgames.com/en/news/building-the-future-of-sport-at-riot-games
 [14] https://teams.gg
 [15] https://tapin.gg
+
+### Changelog
+
+#### Version 1.0.1 (2024-01-09)
+- Updated technology stack to reflect current implementation
+- Removed Challengermode API integration from initial scope
+- Added Vue Router and Pinia to frontend stack
+- Expanded Supabase implementation details
+- Updated timeline to reflect current project status
+- Added version tracking and changelog
+
+#### Version 1.0.0 (2023-12-15)
+- Initial PRD document creation
+- Defined core features and requirements
+- Outlined development approach and timeline
