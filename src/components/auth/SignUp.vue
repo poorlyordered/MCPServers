@@ -14,24 +14,24 @@
     <div class="auth-right">
       <div class="auth-form">
         <div class="welcome-message">
-          <img src="@/assets/icons/chat.svg" alt="Welcome" class="chat-icon">
           <h2>Nice to see you!</h2>
         </div>
 
         <!-- Social Sign Up Buttons -->
-        <button class="social-btn google" @click="signUpWithGoogle">
-          <img src="@/assets/icons/google.svg" alt="Google">
+        <button class="social-btn google" @click="signUpWithGoogle" :disabled="isLoading">
           Sign up with Google
         </button>
 
-        <button class="social-btn facebook" @click="signUpWithFacebook">
-          <img src="@/assets/icons/facebook.svg" alt="Facebook">
+        <button class="social-btn facebook" @click="signUpWithFacebook" :disabled="isLoading">
           Sign up with Facebook
         </button>
 
-        <button class="social-btn microsoft" @click="signUpWithMicrosoft">
-          <img src="@/assets/icons/microsoft.svg" alt="Microsoft">
+        <button class="social-btn microsoft" @click="signUpWithMicrosoft" :disabled="isLoading">
           Sign up with Microsoft
+        </button>
+
+        <button class="social-btn discord" @click="signUpWithDiscord" :disabled="isLoading">
+          Sign up with Discord
         </button>
 
         <div class="divider">
@@ -46,6 +46,7 @@
             v-model="email"
             placeholder="email@gmail.com"
             required
+            :disabled="isLoading"
           >
           <div class="terms">
             By continuing, you agree to our
@@ -53,12 +54,16 @@
             and
             <a href="/privacy" class="link">Privacy Policy</a>
           </div>
-          <button type="submit" class="submit-btn">Continue</button>
+          <button type="submit" class="submit-btn" :disabled="isLoading">
+            {{ isLoading ? 'Sending...' : 'Continue' }}
+          </button>
         </form>
 
         <div class="sign-in-prompt">
           Existing member? <a href="/signin" class="link">Sign in</a>
         </div>
+
+        <LoadingSpinner v-if="isLoading" message="Please wait..." />
       </div>
     </div>
   </div>
@@ -67,54 +72,45 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { supabase } from '@/lib/supabaseClient'
+import { supabase, type Session, type Provider } from '../../lib/supabaseClient'
+import LoadingSpinner from '../common/LoadingSpinner.vue'
 
 const router = useRouter()
 const email = ref('')
+const isLoading = ref(false)
 
-const signUpWithGoogle = async () => {
+const handleAuthSuccess = (session: Session) => {
+  localStorage.setItem('user', JSON.stringify(session))
+  router.push('/create-profile')
+}
+
+const signUpWithProvider = async (provider: Provider) => {
+  isLoading.value = true
   try {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`
+        redirectTo: `${window.location.origin}/auth/callback`,
+        scopes: provider === 'discord' ? 'identify email' : undefined
       }
     })
     if (error) throw error
+    // The session will be available after the OAuth redirect
   } catch (error) {
-    console.error('Error signing up with Google:', error)
+    console.error(`Error signing up with ${provider}:`, error)
+    alert(`Failed to sign up with ${provider}. Please try again.`)
+  } finally {
+    isLoading.value = false
   }
 }
 
-const signUpWithFacebook = async () => {
-  try {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'facebook',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`
-      }
-    })
-    if (error) throw error
-  } catch (error) {
-    console.error('Error signing up with Facebook:', error)
-  }
-}
-
-const signUpWithMicrosoft = async () => {
-  try {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'azure',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`
-      }
-    })
-    if (error) throw error
-  } catch (error) {
-    console.error('Error signing up with Microsoft:', error)
-  }
-}
+const signUpWithGoogle = () => signUpWithProvider('google')
+const signUpWithFacebook = () => signUpWithProvider('facebook')
+const signUpWithMicrosoft = () => signUpWithProvider('azure')
+const signUpWithDiscord = () => signUpWithProvider('discord')
 
 const signUpWithEmail = async () => {
+  isLoading.value = true
   try {
     const { data, error } = await supabase.auth.signInWithOtp({
       email: email.value,
@@ -123,10 +119,17 @@ const signUpWithEmail = async () => {
       }
     })
     if (error) throw error
-    // Show success message or redirect
-    router.push('/verify-email')
+    if (data?.session) {
+      handleAuthSuccess(data.session)
+    } else {
+      localStorage.setItem('pendingEmail', email.value)
+      router.push('/verify-email')
+    }
   } catch (error) {
     console.error('Error signing up with email:', error)
+    alert('Failed to send verification email. Please try again.')
+  } finally {
+    isLoading.value = false
   }
 }
 </script>
@@ -176,17 +179,12 @@ const signUpWithEmail = async () => {
 .auth-form {
   width: 100%;
   max-width: 400px;
+  position: relative;
 }
 
 .welcome-message {
   text-align: center;
   margin-bottom: 2rem;
-}
-
-.chat-icon {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 1rem;
 }
 
 .social-btn {
@@ -204,13 +202,12 @@ const signUpWithEmail = async () => {
   transition: background-color 0.2s;
 }
 
-.social-btn img {
-  width: 24px;
-  height: 24px;
-  margin-right: 0.5rem;
+.social-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
-.social-btn:hover {
+.social-btn:hover:not(:disabled) {
   background-color: #f8f9fa;
 }
 
@@ -262,6 +259,11 @@ const signUpWithEmail = async () => {
   font-size: 1rem;
 }
 
+.email-form input:disabled {
+  background-color: #f8f9fa;
+  cursor: not-allowed;
+}
+
 .terms {
   font-size: 0.875rem;
   color: #6c757d;
@@ -280,8 +282,13 @@ const signUpWithEmail = async () => {
   transition: background-color 0.2s;
 }
 
-.submit-btn:hover {
+.submit-btn:hover:not(:disabled) {
   background-color: #2d3748;
+}
+
+.submit-btn:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
 }
 
 .sign-in-prompt {
@@ -298,5 +305,14 @@ const signUpWithEmail = async () => {
 
 .link:hover {
   text-decoration: underline;
+}
+
+.google { background-color: #4285f4; color: white; }
+.facebook { background-color: #3b5998; color: white; }
+.microsoft { background-color: #2f2f2f; color: white; }
+.discord { background-color: #7289da; color: white; }
+
+.social-btn:hover:not(:disabled) {
+  opacity: 0.9;
 }
 </style>
