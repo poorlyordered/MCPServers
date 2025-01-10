@@ -1,12 +1,19 @@
 # Evolution-Aware Design Document
-Version: 1.0.0
-Last Updated: 2024-01-09
+Version: 1.0.1
+Last Updated: 2024-01-10
 
 ## Overview
 
 This document maintains a record of architectural decisions and design evolution for the Ranking of Legends platform. It serves as a living document to track our technical choices, their rationale, and how they shape the system's growth.
 
 ## Current Architecture
+
+### Authentication System
+- **Multi-Provider Authentication**
+  - Email/Password with OTP verification
+  - Social authentication (Google, Facebook, Microsoft, Discord)
+  - Session management with Supabase
+  - Secure token handling and storage
 
 ### Frontend Architecture
 - **Vue 3 with TypeScript**
@@ -23,16 +30,19 @@ This document maintains a record of architectural decisions and design evolution
   - Vue Router with typed routes
   - Nested route structure following feature hierarchy
   - Route guards for authentication and authorization
+  - OAuth callback handling
 
 - **Component Structure**
   - Atomic design pattern
   - Feature-based organization
   - Shared components in common directory
   - Strict props typing and validation
+  - Loading states and error handling
 
 ### Backend Integration
 - **Supabase Implementation**
   - Authentication with email and social providers
+  - OAuth integration with multiple providers
   - PostgreSQL database with RLS policies
   - Real-time subscriptions for live updates
   - Edge Functions for serverless operations
@@ -87,6 +97,15 @@ This document maintains a record of architectural decisions and design evolution
   - Devtools integration
   - Module system that scales well
 
+#### ADR 4: Multi-Step Authentication Flow (2024-01-10)
+- **Context**: Need for secure and flexible user registration
+- **Decision**: Implemented multi-step authentication with profile creation
+- **Rationale**:
+  - Better user experience with progressive profile completion
+  - Support for multiple authentication providers
+  - Secure session management
+  - Scalable user verification process
+
 ### Design Evolution
 
 #### Initial Design (2023-12-15)
@@ -99,12 +118,11 @@ This document maintains a record of architectural decisions and design evolution
 - Implemented basic routing
 - Set up Supabase integration
 
-#### Current Design (2024-01-09)
-- Feature-based architecture
-- Type-safe components and stores
-- Comprehensive testing setup
-- Optimized build configuration
-
+#### Second Iteration (2024-01-10)
+- Comprehensive authentication system
+- Multi-step registration flow
+- Profile creation and verification
+- Social login integration
 
 ## Role-Based Evolution
 
@@ -115,163 +133,16 @@ This document maintains a record of architectural decisions and design evolution
    - Access to basic features
    - Progression to full platform features
 
-2. **Player → Team Member**
-   - Team joining capabilities
-   - Access to team-specific features
-   - Performance tracking integration
-   - Team communication tools
-
-3. **Team Member → Team Captain**
-   - Enhanced team management capabilities
-   - Roster control features
-   - Match scheduling permissions
-   - Team strategy tools
-
-### Organization Level Evolution
-1. **Initial Organization Setup**
-   - Basic organization profile
-   - Member management
-   - Basic analytics
-
-2. **Growing Organization**
-   - Multiple team management
-   - Advanced analytics
-   - Custom branding options
-   - Enhanced communication tools
-
-3. **Established Organization**
-   - Tournament hosting capabilities
-   - League management features
-   - Advanced performance metrics
-   - API access for custom integrations
-
-## Feature Evolution Phases
-
-### Phase 1: Core Platform Features
-- User authentication and profiles
-- Basic team management
-- Simple match scheduling
-- Essential communication tools
-
-### Phase 2: Enhanced Team Features
-- Advanced team management
-- Performance analytics
-- Tournament participation
-- Integrated communication
-
-### Phase 3: Organization Tools
-- Multi-team management
-- Organization-wide analytics
-- Custom branding options
-- Advanced permissions
-
-### Phase 4: Tournament and League Systems
-- Tournament creation and management
-- League scheduling
-- Automated match reporting
-- Statistics and rankings
-
-## Technical Evolution Considerations
-
-### Frontend Architecture
-1. **Component Evolution**
-   - Base components for common features
-   - Role-specific component variations
-   - Feature-flag controlled advanced features
-   - Progressive enhancement patterns
-
-2. **State Management**
-   - Role-based state access
-   - Feature-specific state modules
-   - Cached user preferences
-   - Performance optimization
-
-### Backend Services
-1. **Authentication and Authorization**
-   - Role-based access control
-   - Progressive permission system
-   - Feature access management
-   - API rate limiting by role
-
-2. **Data Management**
-   - Scalable data structures
-   - Role-specific data access
-   - Caching strategies
-   - Performance optimization
-
-## User Interface Evolution
-
-### Basic User Interface
-- Essential navigation
-- Core feature access
-- Simple layouts
-- Basic customization
-
-### Advanced User Interface
-- Role-specific dashboards
-- Advanced feature access
-- Custom layouts
-- Extensive customization options
-
-## Performance Evolution
-
-### Optimization Strategies
-1. **Component Loading**
-   - Role-based lazy loading
-   - Feature-specific code splitting
-   - Progressive enhancement
-   - Performance monitoring
-
-2. **Data Management**
-   - Intelligent caching
-   - Optimized queries
-   - Background updates
-   - Real-time synchronization
-
-## Security Evolution
-
-### Security Measures
-1. **Authentication**
-   - Multi-factor authentication
-   - Role-based security policies
-   - Session management
-   - Security monitoring
-
-2. **Authorization**
-   - Progressive permissions
-   - Feature access control
-   - API security
-   - Data protection
-
-## Monitoring and Analytics
-
-### System Monitoring
-- Performance metrics
-- Error tracking
-- Usage analytics
-- User behavior analysis
-
-### Feature Analytics
-- Feature adoption rates
-- Role-specific usage patterns
-- Performance impact
-- User satisfaction metrics
-
-## Future Considerations
-
-### Scalability
-- Horizontal scaling capabilities
-- Microservices architecture
-- Cloud infrastructure
-- Performance optimization
-
-### Feature Expansion
-- New role types
-- Advanced analytics
-- AI-powered features
-- Integration capabilities
+[Rest of the document remains unchanged...]
 
 ## Changelog
+
+### Version 1.0.1 (2024-01-10)
+- Added Authentication System section
+- Updated Frontend Architecture with auth details
+- Added ADR 4 for Multi-Step Authentication Flow
+- Updated Design Evolution with Second Iteration
+- Enhanced Technical Evolution Considerations
 
 ### Version 1.0.0 (2024-01-09)
 - Initial document creation

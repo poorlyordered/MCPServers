@@ -1,7 +1,7 @@
 <template>
   <div class="call-to-action">
-    <button @click="joinNow">Join Now</button>
-    <button @click="learnMore">Learn More</button>
+    <button @click="joinNow" class="cta-button primary">Get Started</button>
+    <button @click="learnMore" class="cta-button secondary">Learn More</button>
   </div>
 </template>
 
@@ -10,12 +10,12 @@ export default {
   name: 'CallToAction',
   methods: {
     joinNow() {
-      // Logic for joining the community
-      alert('Join Now clicked!');
+      // Navigate to sign up page
+      window.location.href = '/signup';
     },
     learnMore() {
-      // Logic for learning more about the community
-      alert('Learn More clicked!');
+      // Smooth scroll to features section
+      document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
     },
   },
 };
@@ -25,7 +25,55 @@ export default {
 .call-to-action {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin: 20px 0;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.cta-button {
+  padding: 0.875rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cta-button.primary {
+  background-color: hsla(160, 100%, 37%, 1);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 150, 100, 0.2);
+}
+
+.cta-button.primary:hover {
+  background-color: hsla(160, 100%, 32%, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 150, 100, 0.3);
+}
+
+.cta-button.secondary {
+  background-color: transparent;
+  color: hsla(160, 100%, 37%, 1);
+  border: 2px solid hsla(160, 100%, 37%, 1);
+}
+
+.cta-button.secondary:hover {
+  background-color: hsla(160, 100%, 37%, 0.1);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .call-to-action {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .cta-button {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
 }
 </style>
