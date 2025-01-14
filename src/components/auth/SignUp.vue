@@ -72,15 +72,22 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { supabase, type Session, type Provider } from '../../lib/supabaseClient'
-import LoadingSpinner from '../common/LoadingSpinner.vue'
+import { supabase, type Session, type Provider } from '@/lib/supabaseClient'
+import LoadingSpinner from '@/components/common/LoadingSpinner.vue'
+import { useAuth } from '@/composables/useAuth'
 
 const router = useRouter()
+const { signIn } = useAuth()
 const email = ref('')
 const isLoading = ref(false)
 
 const handleAuthSuccess = (session: Session) => {
-  localStorage.setItem('user', JSON.stringify(session))
+  signIn({
+    id: session.user.id,
+    email: session.user.email as string,
+    name: session.user.user_metadata?.full_name,
+    avatar: session.user.user_metadata?.avatar_url
+  })
   router.push('/create-profile')
 }
 

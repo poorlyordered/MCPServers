@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.47.11",
+    "@types/chart.js": "^2.9.41",
+    "chart.js": "^4.4.7",
     "drawio": "^1.0.7",
     "pinia": "^2.3.0",
     "playwright": "^1.49.1",

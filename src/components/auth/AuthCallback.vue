@@ -9,8 +9,10 @@ import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { supabase } from '../../lib/supabaseClient'
 import LoadingSpinner from '../common/LoadingSpinner.vue'
+import { useAuth } from '@/composables/useAuth'
 
 const router = useRouter()
+const { signIn } = useAuth()
 
 onMounted(async () => {
   try {
@@ -19,7 +21,12 @@ onMounted(async () => {
     if (error) throw error
 
     if (session) {
-      localStorage.setItem('user', JSON.stringify(session))
+      signIn({
+        id: session.user.id,
+        email: session.user.email as string,
+        name: session.user.user_metadata?.full_name,
+        avatar: session.user.user_metadata?.avatar_url
+      })
       router.push('/create-profile')
     } else {
       router.push('/signup')

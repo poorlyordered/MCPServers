@@ -1,151 +1,170 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import ChartComponent from '@/components/data/ChartComponent.vue'
+
+const stats = ref({
+  teams: 3,
+  events: 2,
+  rank: 'Gold'
+})
+
+const monthlyStats = ref({
+  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+  datasets: [
+    {
+      label: 'Team Performance',
+      data: [65, 72, 68, 75, 82, 78],
+      borderColor: '#2563eb',
+      backgroundColor: 'rgba(37, 99, 235, 0.1)',
+      borderWidth: 2
+    }
+  ]
+})
+
+const eventDistribution = ref({
+  labels: ['League', 'Tournament', 'Scrimmage', 'Practice'],
+  datasets: [
+    {
+      label: 'Event Types',
+      data: [4, 2, 6, 8],
+      backgroundColor: [
+        '#2563eb',
+        '#7c3aed',
+        '#db2777',
+        '#dc2626'
+      ]
+    }
+  ]
+})
+</script>
+
 <template>
   <div class="dashboard">
-    <header class="dashboard-header">
-      <h1>Welcome to Ranking of Legends</h1>
-      <div class="user-info" v-if="user">
-        <span>{{ user.email }}</span>
-        <button @click="signOut" class="sign-out-btn">Sign Out</button>
-      </div>
-    </header>
+    <h1>Dashboard</h1>
+    <p>Welcome to your dashboard! Here you can manage your teams, events, and rankings.</p>
 
-    <div class="dashboard-content">
-      <div class="welcome-message">
-        <h2>Your Account is Ready!</h2>
-        <p>You can now create or join a team, participate in tournaments, and more.</p>
+    <div class="dashboard__stats">
+      <div class="stat-card">
+        <h3>Your Teams</h3>
+        <p class="stat-number">{{ stats.teams }}</p>
       </div>
 
-      <div class="action-cards">
-        <div class="card">
-          <h3>Create a Team</h3>
-          <p>Start your own competitive team and recruit players.</p>
-          <button class="action-btn" @click="router.push('/create-team')">Create Team</button>
-        </div>
+      <div class="stat-card">
+        <h3>Upcoming Events</h3>
+        <p class="stat-number">{{ stats.events }}</p>
+      </div>
 
-        <div class="card">
-          <h3>Join a Team</h3>
-          <p>Browse existing teams and submit applications.</p>
-          <button class="action-btn" @click="router.push('/browse-teams')">Browse Teams</button>
-        </div>
+      <div class="stat-card">
+        <h3>Current Rank</h3>
+        <p class="stat-number">{{ stats.rank }}</p>
+      </div>
+    </div>
 
-        <div class="card">
-          <h3>Tournaments</h3>
-          <p>View upcoming tournaments and register your team.</p>
-          <button class="action-btn" @click="router.push('/tournaments')">View Tournaments</button>
-        </div>
+    <div class="dashboard__charts">
+      <div class="chart-wrapper">
+        <h3>Performance Trend</h3>
+        <ChartComponent
+          type="line"
+          :data="monthlyStats"
+          :height="300"
+        />
+      </div>
+
+      <div class="chart-wrapper">
+        <h3>Event Distribution</h3>
+        <ChartComponent
+          type="doughnut"
+          :data="eventDistribution"
+          :height="300"
+        />
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { supabase, type User } from '../lib/supabaseClient'
-
-const router = useRouter()
-const user = ref<User | null>(null)
-
-onMounted(async () => {
-  const { data: { session } } = await supabase.auth.getSession()
-  user.value = session?.user ?? null
-})
-
-const signOut = async () => {
-  try {
-    await supabase.auth.signOut()
-    localStorage.removeItem('user')
-    router.push('/signup')
-  } catch (error) {
-    console.error('Error signing out:', error)
-  }
-}
-</script>
-
 <style scoped>
 .dashboard {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
 }
 
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.dashboard__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
   margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #e2e8f0;
 }
 
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.sign-out-btn {
-  padding: 0.5rem 1rem;
-  background-color: transparent;
-  border: 1px solid #e2e8f0;
-  border-radius: 4px;
-  color: #4a5568;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.sign-out-btn:hover {
-  background-color: #f7fafc;
-}
-
-.welcome-message {
+.stat-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-align: center;
-  margin-bottom: 3rem;
 }
 
-.welcome-message h2 {
-  color: #2d3748;
+.stat-card h3 {
+  font-size: 1rem;
+  color: #4b5563;
   margin-bottom: 0.5rem;
 }
 
-.welcome-message p {
-  color: #718096;
+.stat-number {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2563eb;
 }
 
-.action-cards {
+.dashboard__charts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
 }
 
-.card {
+.chart-wrapper {
   background-color: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.card h3 {
-  color: #2d3748;
+.chart-wrapper h3 {
+  font-size: 1.25rem;
+  color: #1f2937;
   margin-bottom: 1rem;
 }
 
-.card p {
-  color: #718096;
-  margin-bottom: 1.5rem;
-}
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  h1 {
+    color: #f3f4f6;
+  }
 
-.action-btn {
-  padding: 0.75rem 1.5rem;
-  background-color: #4a5568;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
+  .stat-card {
+    background-color: #1f2937;
+  }
 
-.action-btn:hover {
-  background-color: #2d3748;
+  .stat-card h3 {
+    color: #d1d5db;
+  }
+
+  .stat-number {
+    color: #60a5fa;
+  }
+
+  .chart-wrapper {
+    background-color: #1f2937;
+  }
+
+  .chart-wrapper h3 {
+    color: #f3f4f6;
+  }
 }
 </style>
