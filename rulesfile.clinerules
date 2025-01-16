@@ -7,95 +7,158 @@ The Ranking of Legends (RoL) Event Management System is a comprehensive platform
 
 ## Code Style and Structure
 - Write concise, technical TypeScript code with accurate examples
-- Use functional and declarative programming patterns; avoid classes
-- Prefer iteration and modularization over code duplication
+- Use composition API with `<script setup>` syntax
+- Prefer composables over mixins
 - Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError)
 - Structure repository files as follows:
 ```
-server/
-├── src/
-    ├── components/     # Shared React components
-    ├── hooks/          # Custom React hooks
-    ├── utils/          # Helper functions
-    ├── types/          # TypeScript types
-    └── lib/            # Shared libraries
-extension/
-├── src/
-    ├── background/     # Service worker scripts
-    ├── content/        # Content scripts
-    ├── popup/          # Extension popup UI
-    ├── options/        # Extension options page
-    ├── components/     # Shared React components
-    ├── hooks/          # Custom React hooks
-    ├── utils/          # Helper functions
-    ├── lib/            # Shared libraries
-    ├── types/          # TypeScript types
-    └── storage/        # Chrome storage utilities
-shared/
-├── src/
-    ├── types/          # TypeScript types, only used for shared types between server and extension
-    └── utils/          # Helper functions, only used for shared functions between server and extension
+src/
+├── components/     # Vue components organized by feature/type
+├── composables/    # Vue composables (shared logic)
+├── utils/          # Helper functions
+├── types/          # TypeScript types
+├── assets/         # Static assets
+├── router/         # Vue Router configuration
+├── stories/        # Storybook stories
+└── lib/           # External integrations
 ```
 
 ## Tech Stack
-- React
+- Vue 3
 - TypeScript
+- Vite
+- Storybook
+- Vitest
 - Tailwind CSS
-- Shadcn UI
-- Chrome Extension
-- Express.js
 
 ## Naming Conventions
-- Use lowercase with dashes for directories (e.g., components/form-wizard)
-- Favor named exports for components and utilities
-- Use PascalCase for component files (e.g., VisaForm.tsx)
-- Use camelCase for utility files (e.g., formValidator.ts)
+### Component Files
+- Use PascalCase for component files (e.g., BaseContainer.vue, DataTable.vue)
+- Prefix base/core components with "Base" (e.g., BaseInput.vue, BaseModal.vue)
+- Group related components with descriptive prefixes (e.g., AuthCallback.vue)
+- Use suffixes to indicate component type when needed (e.g., UserList.vue, UserListItem.vue)
 
-## TypeScript Usage
-- Use TypeScript for all code; prefer interfaces over types
-- Avoid enums; use const objects with 'as const' assertion
-- Use functional components with TypeScript interfaces
-- Define strict types for message passing between different parts of the extension
-- Use absolute imports for all files @/...
-- Avoid try/catch blocks unless there's good reason to translate or handle error in that abstraction
-- Use explicit return types for all functions
+### Component Directories
+- Use kebab-case for directories (e.g., components/layout/, components/auth/)
+- Group components by feature or type:
+  - auth/ - Authentication related components
+  - common/ - Shared utility components
+  - data/ - Data display components
+  - feedback/ - User feedback components
+  - form/ - Form-related components
+  - icons/ - Icon components
+  - layout/ - Layout and structure components
+  - navigation/ - Navigation-related components
 
-## Chrome Extension Specific
-- Use Manifest V3 standards
-- Implement proper message passing between components:
-  ```typescript
-  interface MessagePayload {
-    type: string;
-    data: unknown;
+### Props and Events
+- Use camelCase for prop names (e.g., maxWidth, showIcon)
+- Boolean props should use is/has/should/can/will prefixes (e.g., isLoading, hasError)
+- Use kebab-case for event names (e.g., update:modelValue, item-selected)
+- Prefix v-model events with update: (e.g., update:modelValue)
+
+## Vue Component Structure
+### Script Setup
+```vue
+<script setup lang="ts">
+// 1. Type imports
+import type { PropType } from 'vue'
+
+// 2. Component imports
+import BaseIcon from '../common/BaseIcon.vue'
+
+// 3. Props definition with TypeScript
+defineProps({
+  label: {
+    type: String,
+    required: true
   }
-  ```
-- Handle permissions properly in manifest.json
-- Use chrome.storage.local for persistent data
-- Implement proper error boundaries and fallbacks
-- Use lib/storage for storage related logic
-- For the async injected scripts in content/, 
-  - they must not close over variables from the outer scope
-  - they must not use imported functions from the outer scope
-  - they must have wrapped error handling so the error message is returned to the caller
+})
+
+// 4. Emits with TypeScript
+defineEmits<{
+  (e: 'update:modelValue', value: string): void
+}>()
+
+// 5. Composables
+const { isLoading } = useLoading()
+
+// 6. Reactive state
+const isOpen = ref(false)
+
+// 7. Computed properties
+const classes = computed(() => ({
+  'is-active': isOpen.value
+}))
+
+// 8. Methods
+const handleClick = () => {
+  isOpen.value = !isOpen.value
+}
+</script>
+```
+
+### Template Structure
+```vue
+<template>
+  <!-- Root element with component classes -->
+  <div :class="['component-name', classes]">
+    <!-- Named slots with fallback -->
+    <slot name="header">
+      <h2>{{ title }}</h2>
+    </slot>
+
+    <!-- Main content -->
+    <div class="component-name__content">
+      <slot></slot>
+    </div>
+  </div>
+</template>
+```
+
+### Style Structure
+```vue
+<style scoped>
+/* Component root styles */
+.component-name {
+  /* Base styles */
+}
+
+/* Component variations */
+.component-name--modifier {
+  /* Modifier styles */
+}
+
+/* Child elements (BEM pattern) */
+.component-name__element {
+  /* Element styles */
+}
+
+/* State classes */
+.component-name.is-active {
+  /* State styles */
+}
+</style>
+```
 
 ## State Management
-- Use React Context for global state when needed
-- Implement proper state persistence using chrome.storage (for extension)
-- Implement proper cleanup in useEffect hooks
+- Use composables for shared logic
+- Use provide/inject for dependency injection
+- Implement proper cleanup in onUnmounted hooks
+- Use refs for reactive state
+- Use computed properties for derived state
 
 ## Syntax and Formatting
-- Use "function" keyword for pure functions
-- Avoid unnecessary curly braces in conditionals
-- Use declarative JSX
-- Implement proper TypeScript discriminated unions for message types
+- Use `<script setup>` syntax for components
+- Use TypeScript for type safety
+- Follow Vue 3 Composition API patterns
+- Use proper TypeScript interfaces for props and events
 
 ## UI and Styling
-- Use Shadcn UI and Radix for components
-- use `npx shadcn@latest add <component-name>` to add new shadcn components
+- Use scoped CSS with BEM naming
 - Implement Tailwind CSS for styling
-- Consider extension-specific constraints (popup dimensions, permissions)
-- Follow Material Design guidelines for Chrome extensions
-- When adding new shadcn component, document the installation command
+- Follow component hierarchy guidelines
+- Ensure responsive design patterns
+- Document component variants and modifiers
 
 ## Error Handling
 - Implement proper error boundaries
@@ -104,17 +167,33 @@ shared/
 - Handle network failures gracefully
 
 ## Testing
-- Write unit tests for utilities and components
-- Implement E2E tests for critical flows
-- Test across different Chrome versions
-- Test memory usage and performance
+### Unit Tests (Vitest)
+- Co-locate test files with components
+- Follow Arrange-Act-Assert pattern
+- Test both success and error cases
+- Test component props, events, and slots
+
+### Component Tests (Storybook)
+- Create stories for all components
+- Document props, events, and slots
+- Provide usage examples
+- Test accessibility compliance
+- Test responsive behavior
+
+### E2E Tests (Playwright)
+- Test critical user flows
+- Test across different viewports
+- Test accessibility
+- Test performance metrics
 
 ## Security
 - Implement Content Security Policy
 - Sanitize user inputs
 - Handle sensitive data properly
-- Follow Chrome extension security best practices
+- Follow Vue.js security best practices
 - Implement proper CORS handling
+- Use HTTPS for all API requests
+- Validate all component props
 
 ## Git Usage
 Commit Message Prefixes:
@@ -136,9 +215,11 @@ Rules:
 ## Documentation
 - Maintain clear README with setup instructions
 - Document API interactions and data flows
-- Keep manifest.json well-documented
+- Keep component stories well-documented
+- Document component props, events, and slots
+- Include setup instructions for development
+- Maintain Storybook documentation
 - Don't include comments unless it's for complex logic
-- Document permission requirements
 
 ## Development Workflow
 - Use proper version control
