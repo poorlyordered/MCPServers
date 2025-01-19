@@ -8,12 +8,47 @@ This platform serves as a hub for League of Legends players to find teams, for t
 
 ## Documentation
 
-- [Project Requirements Document](doc/RankingoFLegends_PRD.md)
-- [Evolution-Aware Design Document](doc/Evolution-Aware%20Design%20Doc.md)
-- [Project Plan & Progress](doc/Plan%20&%20Progress%20Trees.md)
-- [Information Architecture](doc/information_architecture.mmd)
-- [Site Map](doc/site_map.mmd)
-- [User Flows](doc/user_flows.mmd)
+Our documentation is organized into focused, single-purpose files for better maintainability and clarity:
+
+### [Product Context](doc/productContext.md)
+- Why this project exists
+- What problems it solves
+- How it should work
+
+### [Active Context](doc/activeContext.md)
+- What you're working on now
+- Recent changes
+- Next steps
+(This is your source of truth for current development)
+
+### [System Patterns](doc/systemPatterns.md)
+- How the system is built
+- Key technical decisions
+- Architecture patterns
+
+### [Technical Context](doc/techContext.md)
+- Technologies used
+- Development setup
+- Technical constraints
+
+### [Progress](doc/progress.md)
+- What works
+- What's left to build
+- Progress status
+
+## Cline Development Assistant
+
+This project uses Cline as an AI development assistant with custom configurations:
+
+### Rules File
+The project includes a custom rules file for Cline at:
+```
+rulesfile.clinerules
+```
+This file contains project-specific rules and guidelines that Cline follows when assisting with development tasks.
+
+### Custom Instructions
+Cline operates with custom instructions tailored to this project's needs, ensuring consistent development practices and adherence to our project standards.
 
 ## Development Setup
 
@@ -187,6 +222,16 @@ TypeScript cannot handle type information for `.vue` imports by default, so we:
    - Link to related issues
    - Screenshots (if UI changes)
    - All checks passing
+
+## Documentation Maintenance
+
+Each documentation file serves a specific purpose and should be updated when relevant changes occur:
+
+- Update `activeContext.md` frequently as work progresses
+- Update `progress.md` when features are completed or new work is planned
+- Update `systemPatterns.md` when architectural decisions are made
+- Update `techContext.md` when development requirements change
+- Update `productContext.md` when project goals or scope changes
 
 ## Support
 
