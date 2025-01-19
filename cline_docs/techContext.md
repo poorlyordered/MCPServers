@@ -7,6 +7,7 @@
 - Vite for build tooling
 - Vue Router for routing
 - Pinia for state management
+- TailwindCSS for styling and theme system
 - Vitest for unit testing
 - Playwright for E2E testing
 - Storybook for component documentation
@@ -114,6 +115,13 @@
    - No any types
    - Documented interfaces
    - Type-safe API calls
+
+2. Theme System Requirements
+   - Follow TailwindCSS class order convention
+   - Use semantic color variables
+   - Implement dark mode variants
+   - Maintain responsive design patterns
+   - Document component theming
 
 2. Testing Requirements
    - Unit test coverage > 80%

@@ -8,18 +8,50 @@
    - Script setup syntax for cleaner components
    - Type-safe component props and events
 
-2. State Management
+2. Theme System
+   - Color System
+     - Primary colors (50, 500, 900) for brand identity
+     - Accent colors for status (success, error, warning)
+     - Neutral colors for backgrounds and text
+     - Dark mode with semantic color mapping
+     - Gradient backgrounds with opacity variants
+   
+   - Typography System
+     - Responsive heading scales (h1-h3)
+     - Body text sizes with consistent line heights
+     - Inter font family as system default
+     - Mobile-optimized text scaling
+   
+   - Spacing System
+     - Base unit of 4px (0.25rem)
+     - Consistent vertical rhythm
+     - Responsive spacing scale
+     - Component-specific spacing
+   
+   - Responsive Design
+     - Mobile-first approach
+     - Breakpoints: sm(640px), md(768px), lg(1024px), xl(1280px), 2xl(1536px)
+     - Fluid typography
+     - Adaptive layouts
+
+   - Implementation
+     - TailwindCSS for utility-first styling
+     - CSS custom properties for theme tokens
+     - Component-level theme integration
+     - Dark mode using media queries
+
+3. State Management
    - Pinia for centralized state
    - Modular store design
    - Composable functions for reusable logic
 
-3. Routing System
+4. Routing System
    - Vue Router with typed routes
    - Nested route structure
    - Route guards for auth
    - OAuth callback handling
 
-4. Component Architecture
+5. Component Architecture
    - Atomic design pattern
    - Feature-based organization
    - Shared components in common directory
@@ -76,6 +108,15 @@
   - Secure session management
   - Scalable verification process
 
+### ADR 5: TailwindCSS Theme System (2024-01-15)
+- Context: Need for consistent design system
+- Decision: Implemented theme system using TailwindCSS
+- Rationale:
+  - Utility-first approach for rapid development
+  - Built-in responsive design
+  - Easy dark mode implementation
+  - Extensible configuration
+
 ## Architecture Patterns
 
 ### Component Development
@@ -110,6 +151,38 @@
    <style scoped>
    /* Component Styles */
    </style>
+   ```
+
+### Theme Pattern
+1. Color Usage
+   ```vue
+   <!-- Primary Colors -->
+   <div class="bg-primary-500 text-white">
+     <!-- Primary content -->
+   </div>
+
+   <!-- Dark Mode -->
+   <div class="bg-white dark:bg-neutral-900">
+     <!-- Dark mode aware content -->
+   </div>
+
+   <!-- Gradients -->
+   <div class="bg-gradient-to-r from-primary-50 to-primary-100">
+     <!-- Gradient background content -->
+   </div>
+   ```
+
+2. Typography Usage
+   ```vue
+   <!-- Headings -->
+   <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold">
+     <!-- Responsive heading -->
+   </h1>
+
+   <!-- Body Text -->
+   <p class="text-base md:text-lg text-neutral-600 dark:text-neutral-300">
+     <!-- Responsive body text -->
+   </p>
    ```
 
 ### State Management Pattern

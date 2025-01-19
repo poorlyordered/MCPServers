@@ -6,261 +6,92 @@ import OrganizationFeatures from '@/components/OrganizationFeatures.vue';
 </script>
 
 <template>
-  <main>
+  <main class="min-h-screen">
     <!-- Navigation -->
-    <nav class="nav-container">
-      <div class="nav-content">
-        <div class="nav-logo">
+    <nav class="fixed top-0 left-0 right-0 bg-white/95 dark:bg-neutral-900/95 py-4 shadow-sm z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <div class="flex items-center gap-2">
           <img
             src="../assets/design_t.png"
             alt="Ranking of Legends Logo"
-            class="logo-image"
-            width="32"
-            height="32"
+            class="w-8 h-8"
           />
-          <h2 class="logo-text">Ranking of <span class="highlight">Legends</span></h2>
+          <h2 class="text-xl font-semibold text-primary-500">
+            Ranking of <span class="text-primary-900 dark:text-primary-50">Legends</span>
+          </h2>
         </div>
 
-        <div class="nav-links">
-          <a href="#features">Features</a>
-          <a href="#about">About</a>
-          <a href="#testimonials">Testimonials</a>
+        <div class="hidden md:flex gap-8">
+          <a href="#features" class="text-neutral-600 dark:text-neutral-300 font-medium hover:text-primary-500">Features</a>
+          <a href="#about" class="text-neutral-600 dark:text-neutral-300 font-medium hover:text-primary-500">About</a>
+          <a href="#testimonials" class="text-neutral-600 dark:text-neutral-300 font-medium hover:text-primary-500">Testimonials</a>
         </div>
 
-        <div class="nav-auth">
-          <button class="btn btn-outline">Sign In</button>
-          <button class="btn btn-primary">Sign Up</button>
+        <div class="flex gap-4">
+          <button class="px-4 py-2 rounded-lg border-2 border-primary-500 text-primary-500 font-medium hover:bg-primary-50/20">Sign In</button>
+          <button class="px-4 py-2 rounded-lg bg-primary-500 text-white font-medium hover:bg-primary-600">Sign Up</button>
         </div>
       </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1 class="hero-title">Elevate Your Gaming Journey</h1>
-        <p class="hero-subtitle">Join the ultimate platform for competitive gamers and teams to track progress, analyze performance, and climb the ranks.</p>
-        <div class="hero-cta">
+    <section class="pt-40 pb-28 bg-hero">
+      <div class="max-w-4xl mx-auto px-4 text-center space-y-8">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-900 dark:text-neutral-50 mb-6">Elevate Your Gaming Journey</h1>
+        <p class="text-lg md:text-xl text-neutral-600 dark:text-neutral-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+          Join the ultimate platform for competitive gamers and teams to track progress, analyze performance, and climb the ranks.
+        </p>
+        <div class="mt-8">
           <CallToAction />
         </div>
       </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="features">
-      <h2 class="section-title">Why Choose Us</h2>
-      <div class="features-grid">
-        <div class="feature-card">
+    <section id="features" class="py-24 bg-white dark:bg-neutral-900">
+      <h2 class="text-3xl font-bold text-center text-neutral-900 dark:text-neutral-50 mb-12">Why Choose Us</h2>
+      <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-8">
+        <div class="bg-neutral-50 dark:bg-neutral-800 p-8 rounded-xl shadow-sm">
           <TeamPlayerFeatures />
         </div>
-        <div class="feature-card">
+        <div class="bg-neutral-50 dark:bg-neutral-800 p-8 rounded-xl shadow-sm">
           <OrganizationFeatures />
         </div>
       </div>
     </section>
 
     <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials">
-      <h2 class="section-title">What Our Users Say</h2>
-      <div class="testimonials-grid">
-        <div class="testimonial-card">
-          <img src="../assets/design_t.png" alt="User" class="testimonial-avatar" />
-          <p class="testimonial-text">"This platform has transformed how our team tracks progress and improves performance."</p>
-          <p class="testimonial-author">- Alex Chen, Team Captain</p>
+    <section id="testimonials" class="py-16 bg-neutral-50 dark:bg-neutral-800">
+      <h2 class="text-3xl font-bold text-center text-neutral-900 dark:text-neutral-50 mb-8">What Our Users Say</h2>
+      <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-8">
+        <div class="bg-white dark:bg-neutral-900 p-8 rounded-xl shadow-sm text-center">
+          <img src="../assets/design_t.png" alt="User" class="w-16 h-16 rounded-full mx-auto mb-4" />
+          <p class="text-neutral-600 dark:text-neutral-300 italic mb-4">"This platform has transformed how our team tracks progress and improves performance."</p>
+          <p class="font-medium text-neutral-900 dark:text-neutral-50">- Alex Chen, Team Captain</p>
         </div>
-        <div class="testimonial-card">
-          <img src="../assets/design_t.png" alt="User" class="testimonial-avatar" />
-          <p class="testimonial-text">"The analytics and insights have helped us identify areas for improvement we never noticed before."</p>
-          <p class="testimonial-author">- Sarah Johnson, Coach</p>
+        <div class="bg-white dark:bg-neutral-900 p-8 rounded-xl shadow-sm text-center">
+          <img src="../assets/design_t.png" alt="User" class="w-16 h-16 rounded-full mx-auto mb-4" />
+          <p class="text-neutral-600 dark:text-neutral-300 italic mb-4">"The analytics and insights have helped us identify areas for improvement we never noticed before."</p>
+          <p class="font-medium text-neutral-900 dark:text-neutral-50">- Sarah Johnson, Coach</p>
         </div>
       </div>
     </section>
 
     <!-- Final CTA Section -->
-    <section class="final-cta">
+    <section class="py-16 bg-cta">
       <WelcomeMessage />
       <CallToAction />
     </section>
   </main>
 </template>
 
-<style scoped>
-.nav-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 1rem 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+<style>
+/* Custom gradient backgrounds */
+.bg-hero {
+  @apply bg-gradient-to-r from-neutral-50 via-neutral-100 to-neutral-50 dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-900;
 }
 
-.nav-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.logo-text {
-  color: hsla(160, 100%, 37%, 1);
-  font-size: 1.5rem;
-}
-
-.nav-links {
-  display: flex;
-  gap: 2rem;
-}
-
-.nav-links a {
-  color: #333;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.nav-links a:hover {
-  color: hsla(160, 100%, 37%, 1);
-}
-
-.nav-auth {
-  display: flex;
-  gap: 1rem;
-}
-
-.btn {
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn-outline {
-  background-color: transparent;
-  border: 2px solid hsla(160, 100%, 37%, 1);
-  color: hsla(160, 100%, 37%, 1);
-}
-
-.btn-primary {
-  background-color: hsla(160, 100%, 37%, 1);
-  border: none;
-  color: white;
-}
-
-.hero {
-  padding: 8rem 2rem 4rem;
-  background: linear-gradient(to right, #f8f9fa, #e9ecef);
-  text-align: center;
-}
-
-.hero-content {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.hero-title {
-  font-size: 3rem;
-  color: #333;
-  margin-bottom: 1rem;
-}
-
-.hero-subtitle {
-  font-size: 1.25rem;
-  color: #666;
-  margin-bottom: 2rem;
-}
-
-.features {
-  padding: 4rem 2rem;
-  background: white;
-}
-
-.section-title {
-  text-align: center;
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 2rem;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.feature-card {
-  padding: 2rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.testimonials {
-  padding: 4rem 2rem;
-  background: #f8f9fa;
-}
-
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.testimonial-card {
-  padding: 2rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.testimonial-avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  margin-bottom: 1rem;
-}
-
-.testimonial-text {
-  font-style: italic;
-  color: #666;
-  margin-bottom: 1rem;
-}
-
-.testimonial-author {
-  font-weight: 500;
-  color: #333;
-}
-
-.final-cta {
-  padding: 4rem 2rem;
-  background: linear-gradient(to right, hsla(160, 100%, 37%, 0.1), hsla(160, 100%, 37%, 0.2));
-  text-align: center;
-}
-
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-  }
-
-  .hero-title {
-    font-size: 2rem;
-  }
-
-  .hero-subtitle {
-    font-size: 1rem;
-  }
+.bg-cta {
+  @apply bg-gradient-to-r from-primary-500/5 via-primary-500/10 to-primary-500/5;
 }
 </style>

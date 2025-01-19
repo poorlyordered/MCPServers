@@ -1,54 +1,67 @@
 @import './base.css';
 
-/* Styles for new components */
-.welcome-message {
-  text-align: center;
-  margin: 20px 0;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-.call-to-action {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin: 20px 0;
-}
-
-.team-player-features,
-.organization-features,
-.about-us {
-  margin: 20px 0;
-}
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
-}
-
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+@layer components {
+  /* Component Styles */
+  .welcome-message {
+    @apply text-center my-5;
   }
-}
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
+  .call-to-action {
+    @apply flex justify-center gap-2.5 my-5;
+  }
+
+  .team-player-features,
+  .organization-features,
+  .about-us {
+    @apply my-5;
   }
 
   #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+    @apply max-w-7xl mx-auto px-8 font-normal;
   }
+
+  /* Link Styles */
+  a {
+    @apply no-underline text-primary-500 transition-colors duration-300 p-0.5 hover:bg-primary-50/20;
+  }
+
+  /* Responsive Layout */
+  @screen lg {
+    body {
+      @apply flex items-center;
+    }
+
+    #app {
+      @apply grid grid-cols-2 px-8;
+    }
+  }
+}
+
+/* Custom Transitions */
+.fade-enter-active,
+.fade-leave-active {
+  @apply transition-opacity duration-300;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  @apply opacity-0;
+}
+
+/* Custom Animations */
+@keyframes pulse {
+  0%, 100% {
+    @apply opacity-100;
+  }
+  50% {
+    @apply opacity-60;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

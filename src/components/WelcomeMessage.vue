@@ -1,22 +1,24 @@
 <template>
-  <div class="welcome-message">
-    <h2 class="welcome-title">Join Our Growing Community</h2>
-    <p class="welcome-subtitle">
+  <div class="max-w-4xl mx-auto px-4 py-8 text-center">
+    <h2 class="text-h2 font-bold text-neutral-900 dark:text-neutral-50 mb-4">
+      Join Our Growing Community
+    </h2>
+    <p class="text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed mb-12 max-w-2xl mx-auto">
       Ready to take your gaming to the next level? Join thousands of players and organizations
       who are already part of our thriving community.
     </p>
-    <div class="stats">
-      <div class="stat-item">
-        <span class="stat-number">10K+</span>
-        <span class="stat-label">Active Players</span>
+    <div class="flex flex-col md:flex-row justify-center gap-8 md:gap-16 mt-8">
+      <div class="flex flex-col items-center">
+        <span class="text-4xl font-bold text-primary-500 mb-2">10K+</span>
+        <span class="text-lg font-medium text-neutral-600 dark:text-neutral-300">Active Players</span>
       </div>
-      <div class="stat-item">
-        <span class="stat-number">500+</span>
-        <span class="stat-label">Teams</span>
+      <div class="flex flex-col items-center">
+        <span class="text-4xl font-bold text-primary-500 mb-2">500+</span>
+        <span class="text-lg font-medium text-neutral-600 dark:text-neutral-300">Teams</span>
       </div>
-      <div class="stat-item">
-        <span class="stat-number">100+</span>
-        <span class="stat-label">Events</span>
+      <div class="flex flex-col items-center">
+        <span class="text-4xl font-bold text-primary-500 mb-2">100+</span>
+        <span class="text-lg font-medium text-neutral-600 dark:text-neutral-300">Events</span>
       </div>
     </div>
   </div>
@@ -27,71 +29,3 @@ export default {
   name: 'WelcomeMessage',
 };
 </script>
-
-<style scoped>
-.welcome-message {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-}
-
-.welcome-title {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 1rem;
-  font-weight: 700;
-}
-
-.welcome-subtitle {
-  font-size: 1.25rem;
-  color: #666;
-  line-height: 1.6;
-  margin-bottom: 3rem;
-}
-
-.stats {
-  display: flex;
-  justify-content: center;
-  gap: 4rem;
-  margin-top: 2rem;
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.stat-number {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: hsla(160, 100%, 37%, 1);
-  margin-bottom: 0.5rem;
-}
-
-.stat-label {
-  font-size: 1.125rem;
-  color: #666;
-  font-weight: 500;
-}
-
-@media (max-width: 768px) {
-  .welcome-title {
-    font-size: 2rem;
-  }
-
-  .welcome-subtitle {
-    font-size: 1.125rem;
-  }
-
-  .stats {
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .stat-number {
-    font-size: 2rem;
-  }
-}
-</style>
